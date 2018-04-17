@@ -35,7 +35,7 @@ class BaseTestCase(TestCase):
             try:
                 message += subprocess.check_output(['diff', str(expected), str(current)])
             except subprocess.CalledProcessError as ex:
-                message += ex.output
+                message += ex.output.decode("utf-8")
 
         return message
 
