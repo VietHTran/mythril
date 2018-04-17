@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest import TestCase
 import os
 import shutil
+import subprocess 
 
 TESTS_DIR = Path(__file__).parent
 PROJECT_DIR = TESTS_DIR.parent
@@ -31,6 +32,10 @@ class BaseTestCase(TestCase):
             message += "{}:\n".format(input_file.name)
             message += "- {}\n".format(str(expected))
             message += "- {}\n".format(str(current))
+            try:
+                message += subprocess.check_output(['diff', str(expected), str(current)])
+            except subprocess.CalledProcessError as ex:
+                message += ex.output
 
         return message
 
